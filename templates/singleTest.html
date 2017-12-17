@@ -33,6 +33,9 @@
                         <button ng-if="answerWasGiven() && hasNext({atest:test})" class="btn btn-info pull-right" ng-click="next({atest:test})">
                             Next
                         </button>
+                        <button ng-if="!answerWasGiven() && hasNext({atest:test})" class="btn btn-info pull-right" ng-click="next({atest:test})" disabled>
+                            Next
+                        </button>
                     </div>
                 </div>
                 <div class="row question" style="padding-top: 10px; padding-bottom:10px;">
