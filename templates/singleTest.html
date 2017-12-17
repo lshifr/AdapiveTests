@@ -1,0 +1,44 @@
+<div>
+    <div class="panel panel-default">
+
+        <div class="panel-body">
+            <div class="row">
+                <pre>
+                    <code class="javascript hljs">{{test.contents}}</code>
+                </pre>
+            </div>
+            <div class="row">
+                <div class="col-md-3 text-center">
+                    <h4>Question</h4>
+                </div>
+                <div class="col-md-8">
+                    {{test.question}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        
+                        <button ng-repeat="choice in test.choices" style="margin: 0 10px 0 10px" ng-click="processChoice($event)">
+                            {{choice}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="wasAnswerGiven()">
+                <div ng-class="{'panel':true, 'panel-success': wasCorrectAnswer(), 'panel-danger': !wasCorrectAnswer()}">
+                    <div class="panel-heading">
+                        <h3 class="panel-title text-center">
+                            <span ng-if="wasCorrectAnswer()">
+                                Correct
+                            </span>
+                            <span ng-if="!wasCorrectAnswer()">
+                                Incorrect
+                            </span>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

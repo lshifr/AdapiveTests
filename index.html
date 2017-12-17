@@ -41,78 +41,27 @@
         tests.forEach(test => {
             test.contents = test.contentLines.join("\n");
         });
-
-        var testTemplate = `
-            <div>
-                <div class="panel panel-default">
-                
-                    <div class="panel-body">
-                        <div class="row">
-                            <pre>
-                                <code class="javascript hljs">{{$ctrl.test.contents}}</code>
-                            </pre>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 text-center">
-                                <h4>Question</h4>
-                            </div>
-                            <div class="col-md-8">
-                                {{$ctrl.test.question}}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <button 
-                                        ng-repeat="choice in $ctrl.test.choices" 
-                                        style="margin: 0 10px 0 10px"
-                                        ng-click="$ctrl.processChoice($event)"
-                                    >
-                                        {{choice}}    
-                                    </button>
-                                </div>
-                            </div>        
-                        </div>
-                        <div ng-if="$ctrl.wasAnswerGiven()">
-                            <div 
-                                ng-class="{'panel':true, 'panel-success': $ctrl.wasCorrectAnswer(), 'panel-danger': !$ctrl.wasCorrectAnswer()}"
-                            >
-                                <div class="panel-heading">   
-                                    <h3 class="panel-title text-center"> 
-                                        <span ng-if="$ctrl.wasCorrectAnswer()">
-                                            Correct
-                                        </span>
-                                        <span ng-if="!$ctrl.wasCorrectAnswer()">
-                                            Incorrect
-                                        </span>
-                                    </h3>        
-                                </div>        
-                            </div>    
-                        </div>    
-                    </div>
-                </div>
-            </row>
-        `;
-
         
         var allTestsTemplate = `<single-test test="$ctrl.currentTest"></single-test>`
 
         angular.module('adaptivetests', [])
-            .component('singleTest', {
-                template: testTemplate,
-                bindings:{
-                    'test': '<'
-                },
-                controller: function(){
-                    var answeredCorrectly = null;
-                    this.processChoice = function(event){
-                        answeredCorrectly = event.target.innerText === this.test.answer;
+            .directive('singleTest', function(){
+                return {
+                    templateUrl: 'templates/singleTest.html',
+                    scope:{
+                        'test': '<'
+                    },
+                    controller: function($scope){
+                    
+                        var answeredCorrectly = null;
+                        $scope.processChoice = function(event){
+                            answeredCorrectly = event.target.innerText === $scope.test.answer;
+                        }
+
+                        $scope.wasAnswerGiven = () => answeredCorrectly !== null;
+
+                        $scope.wasCorrectAnswer = () => answeredCorrectly;   
                     }
-
-                    this.wasAnswerGiven = () => answeredCorrectly !== null;
-
-                    this.wasCorrectAnswer = () => answeredCorrectly;
-                       
                 }
             })
             .component('allTests', {
