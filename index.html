@@ -22,7 +22,7 @@
                 <all-tests></all-tests>
             </div>
             <div class="col-md-3"></div>
-        </div>        
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -41,32 +41,43 @@
         tests.forEach(test => {
             test.contents = test.contentLines.join("\n");
         });
-        
+
         var allTestsTemplate = `<single-test test="$ctrl.currentTest"></single-test>`
 
         angular.module('adaptivetests', [])
-            .directive('singleTest', function(){
+            .directive('singleTest', function () {
                 return {
                     templateUrl: 'templates/singleTest.html',
-                    scope:{
+                    scope: {
                         'test': '<'
                     },
-                    controller: function($scope){
-                    
+                    controller: function ($scope) {
+
                         var answeredCorrectly = null;
-                        $scope.processChoice = function(event){
+                        $scope.processChoice = function (event) {
                             answeredCorrectly = event.target.innerText === $scope.test.answer;
                         }
 
                         $scope.wasAnswerGiven = () => answeredCorrectly !== null;
 
-                        $scope.wasCorrectAnswer = () => answeredCorrectly;   
+                        $scope.wasCorrectAnswer = () => answeredCorrectly;
+                    },
+                    link:function(scope, elem){
+                        scope.$watch('test',
+                            function(){
+                                scope.$evalAsync(
+                                    function(){
+                                        hljs.highlightBlock(elem[0].querySelector('pre code'));
+                                    }
+                                )
+                            }
+                        )
                     }
                 }
             })
             .component('allTests', {
-                template: allTestsTemplate, 
-                controller: function(){
+                template: allTestsTemplate,
+                controller: function () {
                     this.currentTest = tests[1];
                 }
             });
