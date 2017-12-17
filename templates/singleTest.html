@@ -1,33 +1,57 @@
+<style>
+    .question{
+        font-size: 18px;    
+    }
+</style>
+
 <div>
     <div class="panel panel-default">
 
         <div class="panel-body">
             <div class="row">
-                <pre>
-                    <code class="javascript hljs">{{test.contents}}</code>
-                </pre>
+                <test-code code="test.contents"></test-code>
             </div>
-            <div class="row">
-                <div class="col-md-3 text-center">
-                    <h4>Question</h4>
+            <div class="row question" style="padding-top: 10px; padding-bottom:10px;">
+                <div class="col-md-3 text-center" style="font-weight:bold;">
+                    Question:
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-8 text-center">
                     {{test.question}}
                 </div>
             </div>
             <div class="row">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        
-                        <button ng-repeat="choice in test.choices" style="margin: 0 10px 0 10px" ng-click="processChoice($event)">
+                        <button 
+                            ng-if="answerWasGiven()"
+                            ng-repeat="choice in test.choices" 
+                            style="margin: 0 10px 0 10px" 
+                            ng-click="processChoice($event)"
+                            class="btn"
+                            ng-class="{
+                                'btn-danger': checkIncorrectAnswer(choice), 
+                                'btn-success':checkCorrectAnswer(choice), 
+                                'btn-primary': !checkAnswer(choice)
+                            }"
+                            disabled
+                        >
                             {{choice}}
                         </button>
+                        <button 
+                        ng-if="!answerWasGiven()"
+                        ng-repeat="choice in test.choices" 
+                        style="margin: 0 10px 0 10px" 
+                        ng-click="processChoice($event)"
+                        class="btn btn-primary"
+                    >
+                        {{choice}}
+                    </button>
                     </div>
                 </div>
             </div>
-            <div ng-if="wasAnswerGiven()">
+            <div>
                 <div ng-class="{'panel':true, 'panel-success': wasCorrectAnswer(), 'panel-danger': !wasCorrectAnswer()}">
-                    <div class="panel-heading">
+                    <div class="panel-heading" ng-if="answerWasGiven()">
                         <h3 class="panel-title text-center">
                             <span ng-if="wasCorrectAnswer()">
                                 Correct
@@ -36,6 +60,22 @@
                                 Incorrect
                             </span>
                         </h3>
+                    </div>
+                    <div class="panel-body">
+                        <button 
+                            ng-if="hasPrevious({atest:test})"
+                            class="btn btn-primary pull-left"
+                            ng-click="previous({atest:test})"
+                        >
+                            Previous
+                        </button>
+                        <button 
+                            ng-if="answerWasGiven() && hasNext({atest:test})"
+                            class="btn btn-primary pull-right"
+                            ng-click="next({atest:test})"
+                        >
+                            Next
+                        </button>
                     </div>
                 </div>
             </div>
