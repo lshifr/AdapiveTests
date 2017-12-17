@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/darcula.min.css">
+
+
+    <title>Document</title>
+</head>
+
+<body ng-app="adaptivetests">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <all-tests></all-tests>
+            </div>
+            <div class="col-md-3"></div>
+        </div>        
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+    <script src="tests.js"></script>
+
+
+    <script>
+
+        hljs.initHighlightingOnLoad();
+
+        tests.forEach(test => {
+            test.contents = test.contentLines.join("\n");
+        });
+
+        var testTemplate = `
+            <div>
+                <div class="panel panel-default">
+                
+                    <div class="panel-body">
+                        <div class="row">
+                            <pre>
+                                <code class="javascript hljs">{{$ctrl.test.contents}}</code>
+                            </pre>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 text-center">
+                                <h4>Question</h4>
+                            </div>
+                            <div class="col-md-8">
+                                {{$ctrl.test.question}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <button 
+                                        ng-repeat="choice in $ctrl.test.choices" 
+                                        style="margin: 0 10px 0 10px"
+                                        ng-click="$ctrl.processChoice($event)"
+                                    >
+                                        {{choice}}    
+                                    </button>
+                                </div>
+                            </div>        
+                        </div>
+                        <div ng-if="$ctrl.wasAnswerGiven()">
+                            <div 
+                                ng-class="{'panel':true, 'panel-success': $ctrl.wasCorrectAnswer(), 'panel-danger': !$ctrl.wasCorrectAnswer()}"
+                            >
+                                <div class="panel-heading">   
+                                    <h3 class="panel-title text-center"> 
+                                        <span ng-if="$ctrl.wasCorrectAnswer()">
+                                            Correct
+                                        </span>
+                                        <span ng-if="!$ctrl.wasCorrectAnswer()">
+                                            Incorrect
+                                        </span>
+                                    </h3>        
+                                </div>        
+                            </div>    
+                        </div>    
+                    </div>
+                </div>
+            </row>
+        `;
+
+        
+        var allTestsTemplate = `<single-test test="$ctrl.currentTest"></single-test>`
+
+        angular.module('adaptivetests', [])
+            .component('singleTest', {
+                template: testTemplate,
+                bindings:{
+                    'test': '<'
+                },
+                controller: function(){
+                    var answeredCorrectly = null;
+                    this.processChoice = function(event){
+                        answeredCorrectly = event.target.innerText === this.test.answer;
+                    }
+
+                    this.wasAnswerGiven = () => answeredCorrectly !== null;
+
+                    this.wasCorrectAnswer = () => answeredCorrectly;
+                       
+                }
+            })
+            .component('allTests', {
+                template: allTestsTemplate, 
+                controller: function(){
+                    this.currentTest = tests[1];
+                }
+            });
+
+/*
+document.addEventListener("DOMContentLoaded", ready);
+
+function ready(){
+    
+    console.log(tests);
+
+
+}
+*/
+
+
+    </script>
+
+
+</body>
+
+</html>
