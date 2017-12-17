@@ -1,81 +1,79 @@
 <style>
-    .question{
-        font-size: 18px;    
+    .question {
+        font-size: 18px;
+    }
+
+    .question-code pre {
+        background: white;
+        border: none
     }
 </style>
 
-<div>
-    <div class="panel panel-default">
+<div class="row" style="padding-top: 30px;">
 
+    <div class="col-md-5">
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+                <div class="row question-code" style="height:400px;">
+                    <test-code code="test.contents"></test-code>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default col-md-7">
         <div class="panel-body">
-            <div class="row">
-                <test-code code="test.contents"></test-code>
-            </div>
-            <div class="row question" style="padding-top: 10px; padding-bottom:10px;">
-                <div class="col-md-3 text-center" style="font-weight:bold;">
-                    Question:
+            <div class="row" style="height:400px;">
+                <div class="panel">
+                    <div class="panel-body" style="height:30px">
+                        <button ng-if="hasPrevious({atest:test})" class="btn btn-info pull-left" ng-click="previous({atest:test})">
+                            Previous
+                        </button>
+                        <button ng-if="answerWasGiven() && hasNext({atest:test})" class="btn btn-info pull-right" ng-click="next({atest:test})">
+                            Next
+                        </button>
+                    </div>
                 </div>
-                <div class="col-md-8 text-center">
-                    {{test.question}}
+                <div class="row question" style="padding-top: 10px; padding-bottom:10px;">
+                    <div class="col-md-3 text-center" style="font-weight:bold;">
+                        Question:
+                    </div>
+                    <div class="col-md-8 text-center">
+                        {{test.question}}
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <button 
-                            ng-if="answerWasGiven()"
-                            ng-repeat="choice in test.choices" 
-                            style="margin: 0 10px 0 10px" 
-                            ng-click="processChoice($event)"
-                            class="btn"
-                            ng-class="{
+                <div class="row">
+                    <div class="panel panel-default" style="border-color:white">
+                        <div class="panel-body">
+                            <button ng-if="answerWasGiven()" ng-repeat="choice in test.choices" style="margin: 0 10px 0 10px" ng-click="processChoice($event)"
+                                class="btn" ng-class="{
                                 'btn-danger': checkIncorrectAnswer(choice), 
                                 'btn-success':checkCorrectAnswer(choice), 
                                 'btn-primary': !checkAnswer(choice)
-                            }"
-                            disabled
-                        >
-                            {{choice}}
-                        </button>
-                        <button 
-                        ng-if="!answerWasGiven()"
-                        ng-repeat="choice in test.choices" 
-                        style="margin: 0 10px 0 10px" 
-                        ng-click="processChoice($event)"
-                        class="btn btn-primary"
-                    >
-                        {{choice}}
-                    </button>
+                            }" disabled>
+                                {{choice}}
+                            </button>
+                            <button ng-if="!answerWasGiven()" ng-repeat="choice in test.choices" style="margin: 0 10px 0 10px" ng-click="processChoice($event)"
+                                class="btn btn-primary">
+                                {{choice}}
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div>
-                <div ng-class="{'panel':true, 'panel-success': wasCorrectAnswer(), 'panel-danger': !wasCorrectAnswer()}">
-                    <div class="panel-heading" ng-if="answerWasGiven()">
-                        <h3 class="panel-title text-center">
-                            <span ng-if="wasCorrectAnswer()">
-                                Correct
-                            </span>
-                            <span ng-if="!wasCorrectAnswer()">
-                                Incorrect
-                            </span>
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <button 
-                            ng-if="hasPrevious({atest:test})"
-                            class="btn btn-primary pull-left"
-                            ng-click="previous({atest:test})"
-                        >
-                            Previous
-                        </button>
-                        <button 
-                            ng-if="answerWasGiven() && hasNext({atest:test})"
-                            class="btn btn-primary pull-right"
-                            ng-click="next({atest:test})"
-                        >
-                            Next
-                        </button>
+                <div>
+                    <div ng-class="{'panel':true, 'panel-success': wasCorrectAnswer(), 'panel-danger': !wasCorrectAnswer()}">
+                        <div class="panel-heading" ng-if="answerWasGiven()">
+                            <h3 class="panel-title text-center">
+                                <span ng-if="wasCorrectAnswer()">
+                                    Correct
+                                </span>
+                                <span ng-if="!wasCorrectAnswer()">
+                                    Incorrect
+                                </span>
+                            </h3>
+                        </div>
+
                     </div>
                 </div>
             </div>
