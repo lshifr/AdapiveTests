@@ -1,9 +1,19 @@
 hljs.initHighlightingOnLoad();
 
+function makeHighlightedHTML(contents){
+    let pr = document.createElement('pre');
+    let cd = document.createElement('code');
+    cd.innerHTML = contents;
+    pr.appendChild(cd);
+    hljs.highlightBlock(pr);
+    return $(pr).html();
+}
+
 tests.forEach(test => {
     test.contents = test.contentLines.join("\n");
     test.answeredCorrectly = null;
     test.userAnswer = null;
+    test.htmlContents = makeHighlightedHTML(test.contents);
 });
 
 var allTestsTemplate = `<single-test 
@@ -17,7 +27,7 @@ var allTestsTemplate = `<single-test
             </single-test>`
 
 
-angular.module('adaptivetests', [])
+angular.module('adaptivetests', ['ngSanitize'])
     .directive('singleTest', function () {
         return {
             templateUrl: 'templates/singleTest.html',
@@ -96,9 +106,12 @@ angular.module('adaptivetests', [])
             scope: {
                 'code': '<'
             },
-            template: `<pre>
+            template: '<pre ng-bind-html="code"></pre>'
+                /*
+                `<pre>
                         <code class="javascript hljs">{{code}}</code>
-                    </pre>`,
+                    </pre>`
+                */,
             controller: function ($scope, $timeout) {
                 /*
                 $scope.timeout = (f, delay) => $timeout(f, delay);
