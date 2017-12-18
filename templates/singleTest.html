@@ -52,7 +52,7 @@
                             <button ng-if="answerWasGiven()" ng-repeat="choice in test.choices" style="margin: 0 10px 0 10px" ng-click="processChoice($event)"
                                 class="btn" ng-class="{
                                 'btn-danger': checkIncorrectAnswer(choice), 
-                                'btn-success':checkCorrectAnswer(choice), 
+                                'btn-success': checkCorrectAnswer(choice), 
                                 'btn-primary': !checkAnswer(choice)
                             }" disabled>
                                 {{choice}}

@@ -60,9 +60,11 @@ angular.module('adaptivetests', ['ngSanitize'])
                     return choice === $scope.test.userAnswer
                 }
 
+                
                 $scope.checkCorrectAnswer = (choice) => {
-                    return $scope.checkAnswer(choice) && $scope.test.answeredCorrectly;
+                    return choice === $scope.test.answer;
                 }
+                
 
                 $scope.checkIncorrectAnswer = (choice) => {
                     return $scope.checkAnswer(choice) && !$scope.test.answeredCorrectly;
