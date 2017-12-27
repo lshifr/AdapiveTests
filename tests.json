@@ -1,4 +1,4 @@
-var tests = [
+[
     {
         "id": 1,
         "contentLines": [
@@ -294,4 +294,4 @@ var tests = [
         "answer":"false",
         "level":"Easy"
     }
-];
+]
