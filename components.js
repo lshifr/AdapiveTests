@@ -111,57 +111,34 @@ app
 })
 .component('allTests', {
     template: `<single-test 
-    test="$ctrl.currentTest"
+    test="$ctrl.getCurrentTest()"
     has-previous="$ctrl.hasPrevious(atest)"
     has-next="$ctrl.hasNext(atest)"
     previous="$ctrl.getPrevious(atest)"
     next="$ctrl.getNext(atest)"
     do-answer="$ctrl.setAnswered(atest, answer)"
-    ng-if="$ctrl.currentTest"
+    ng-if="$ctrl.getCurrentTest()"
     >
     </single-test>`,
     controller: function (testsService) {
-        let tests;
-        this.currentTest = null;
+
+        this.testingStrategy = null;
 
         testsService.getTests().then(res => {
-            tests = simpleDeepClone(res);
-            this.currentTest = tests[0]; // Initial value
-            console.log(tests);
+            this.testingStrategy = new SimpleTestingStrategy(simpleDeepClone(res));
         });
 
-        function _getTestIndex(test) {
-            let index = tests.map(t => t.id).indexOf(test.id);
-            //console.log("The index for test with id "+ test.id + " is: " + index);
-            return index;
-        }
-
-        this.hasNext = function (test) {
-            let index = _getTestIndex(test);
-            return index >= 0 && index < tests.length - 1;
-        }
-        this.hasPrevious = function (test) {
-            return _getTestIndex(test) > 0;
-        }
-
-        this.getNext = function (test) {
-            if (this.hasNext(test)) {
-                this.currentTest = tests[_getTestIndex(test) + 1];
+        this.hasNext = test => this.testingStrategy.hasNext(test);
+        this.hasPrevious = test => this.testingStrategy.hasPrevious(test);
+        this.getNext = test => this.testingStrategy.getNext(test);
+        this.getPrevious = test => this.testingStrategy.getPrevious(test);
+        this.setAnswered = (test, answer) => this.testingStrategy.setAnswered(test, answer);
+        this.getCurrentTest  = () => {
+            if(this.testingStrategy){
+                return this.testingStrategy.getCurrentTest()
+            } else {
+                return null;
             }
-        }
-
-        this.setAnswered = function (test, answer) {
-            //console.log('In setAnswered');
-            //console.log(test, answer);
-            let index = _getTestIndex(test);
-            tests[index].answeredCorrectly = answer === test.answer;
-            tests[index].userAnswer = answer;
-        }
-
-        this.getPrevious = function (test) {
-            if (this.hasPrevious(test)) {
-                this.currentTest = tests[_getTestIndex(test) - 1];
-            }
-        }
+        };
     }
 });            
