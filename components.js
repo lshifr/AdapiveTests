@@ -125,7 +125,7 @@ app
         this.testingStrategy = null;
 
         testsService.getTests().then(res => {
-            this.testingStrategy = new SimpleTestingStrategy(simpleDeepClone(res));
+            this.testingStrategy = new SimpleAdaptiveTestingStrategy(simpleDeepClone(res));
         });
 
         this.hasNext = test => this.testingStrategy.hasNext(test);
