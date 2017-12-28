@@ -1,12 +1,5 @@
 app.service('testsService', testsService);
 
-//app.service(SimpleTestingStrategyService);
-
-
-function SimpleTestingStrategyService(){
-
-}
-
 function testsService($http){
     let _tests = null;
 

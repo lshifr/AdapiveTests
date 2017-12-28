@@ -124,18 +124,21 @@ app
 
         this.testingStrategy = null;
 
+        /* TODO: will need router / resolves to cleanly inject the data into the 
+        *  component. Right now, using ng-if to avoid errors, but that's a hack.
+        */ 
         testsService.getTests().then(res => {
-            this.testingStrategy = new SimpleAdaptiveTestingStrategy(simpleDeepClone(res));
+            this.tester = new Tester(simpleDeepClone(res), SimpleAdaptiveTestingStrategy);
         });
 
-        this.hasNext = test => this.testingStrategy.hasNext(test);
-        this.hasPrevious = test => this.testingStrategy.hasPrevious(test);
-        this.getNext = test => this.testingStrategy.getNext(test);
-        this.getPrevious = test => this.testingStrategy.getPrevious(test);
-        this.setAnswered = (test, answer) => this.testingStrategy.setAnswered(test, answer);
+        this.hasNext = test => this.tester.hasNext(test);
+        this.hasPrevious = test => this.tester.hasPrevious(test);
+        this.getNext = test => this.tester.getNext(test);
+        this.getPrevious = test => this.tester.getPrevious(test);
+        this.setAnswered = (test, answer) => this.tester.setAnswered(test, answer);
         this.getCurrentTest  = () => {
-            if(this.testingStrategy){
-                return this.testingStrategy.getCurrentTest()
+            if(this.tester){
+                return this.tester.getCurrentTest()
             } else {
                 return null;
             }
