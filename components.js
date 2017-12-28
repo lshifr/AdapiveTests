@@ -128,7 +128,7 @@ app
         *  component. Right now, using ng-if to avoid errors, but that's a hack.
         */ 
         testsService.getTests().then(res => {
-            this.tester = new Tester(simpleDeepClone(res), SimpleAdaptiveTestingStrategy);
+            this.tester = new Tester(simpleDeepClone(res), SimpleAdaptiveTestingStrategyGen);
         });
 
         this.hasNext = test => this.tester.hasNext(test);

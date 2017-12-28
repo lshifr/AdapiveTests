@@ -3,7 +3,6 @@ function show(arg) {
     return arg;
 }
 
-
 function assert(condition, message) {
     if (!condition) {
         message = message || "Assertion failed";
@@ -29,7 +28,6 @@ function groupBy(collection, f){
     });
     return result
 }
-
 
 /**
  * Implements a simple deep clone of an object, whose fields may contain 
@@ -64,3 +62,66 @@ function simpleDeepClone(o){
 }
 
 // TODO: implement a full-fledged clone() 
+
+
+/**
+ * Wraps an iterable collection in a generator
+ * 
+ * @param {*} collection 
+ */
+function* makeGen(collection){
+    for(let elem of collection){
+        yield elem;
+    }
+}
+
+/**
+ * Maps a function f on values for all keys  / properties of a given object.
+ * So, given an object of the form {key1: val1, ..., keyn:valn}, it would 
+ * return a new object of the form {key1: f(val1), ..., keyn: f(valn)}
+ * 
+ * @param {*} f 
+ * @param {*} obj 
+ */
+function mapdict(f, obj){
+    let result = {};
+    for(let prop in obj){
+        if(obj.hasOwnProperty(prop)){
+            result[prop] = f(obj[prop]);
+        }
+    }
+    return result;
+}
+
+/**
+ * A rather specialized function that takes a nested collection of items of 
+ * the form {key1: [item_1, ..., item_k], ..., keyn: [item_n_1, ..., item_n_m]},
+ * and a starting ordered set of keys, and constructs a generator over the 
+ * items in collections. The generator would, at every step, get the ordered
+ * set of allowed keys for the next step, and yield the first item from the 
+ * first non-empty collection, looping through the set of allowed keys, obtained
+ * from a previous iteration. The starting set of allowed keys is passed as 
+ * the second argument, to make the first yield possible.
+ * 
+ * @param {*} multiCollection 
+ * @param {*} startingAllowedLevels 
+ */
+function makeMulticollectionGen(multiCollection, startingKeys) {
+    let multiGens = mapdict(makeGen, multiCollection);
+    return function* () {
+        let keys = startingKeys;
+        let done = false;
+        while(!done){
+            done = true;
+            for (let key of keys){
+                let next = multiGens[key].next();
+                if (!next.done){
+                    keys = yield next.value;
+                    done = false;
+                    break;
+                }
+            }   
+        }
+        return null;
+    }
+}
