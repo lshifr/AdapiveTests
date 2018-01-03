@@ -117,7 +117,8 @@ class SimpleAdaptiveTestingStrategyGen{
         if(!test){
             return this.testgen.next().value;
         } 
-        let maxAllowedLevel  =  this.levels.indexOf(test.level) + (test.answeredCorrectly? 1:-1);
+        let index = this.levels.indexOf(test.level);
+        let maxAllowedLevel  =  index + (test.answeredCorrectly? 1: (index?-1:0));
         let allowedLevels = this.levels.slice(0, maxAllowedLevel+1).reverse();
         return this.testgen.next(allowedLevels).value;
     }
