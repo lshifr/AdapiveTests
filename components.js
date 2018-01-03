@@ -116,7 +116,8 @@ app
         this.availableStrategies = {
             'Simple': SimpleTestingStrategy,
             'SimpleAdaptive': SimpleAdaptiveTestingStrategy,
-            'SimpleAdaptiveGen': SimpleAdaptiveTestingStrategyGen
+            'SimpleAdaptiveGen': SimpleAdaptiveTestingStrategyGen,
+            'CustomTree': CustomTreeAdaptiveStrategy
         }
 
         this.getStrategies = () => Object.keys(this.availableStrategies);
