@@ -36,8 +36,14 @@ class SimpleAdaptiveTestingStrategy extends BaseTestingStrategy {
     }
 
     fetchNext(test) {
-        let maxAllowedLevel = !test ? 0 : this.levels.indexOf(test.level) + (test.answeredCorrectly ? 1 : -1);
-        let allowedLevels = this.levels.slice(0, maxAllowedLevel + 1).reverse();
+        let allowedLevels;
+        if(test){
+            let index = this.levels.indexOf(test.level);
+            let maxAllowedLevel = !test ? 0 : index + (test.answeredCorrectly ? 1 : (index ? -1 : 0));
+            allowedLevels = this.levels.slice(0, maxAllowedLevel + 1).reverse();
+        } else { // The first test
+            allowedLevels = this.levels.slice();
+        }
         for (let lev of allowedLevels) {
             if (this.grouped[lev].length > 0) {
                 return this.grouped[lev].shift();
