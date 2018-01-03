@@ -27,13 +27,13 @@
             <div class="row" style="height:400px;">
                 <div class="panel">
                     <div class="panel-body" style="height:30px">
-                        <button ng-if="hasPrevious({atest:test})" class="btn btn-info pull-left" ng-click="previous({atest:test})">
+                        <button ng-if="hasPrevious()" class="btn btn-info pull-left" ng-click="previous()">
                             Previous
                         </button>
-                        <button ng-if="answerWasGiven() && hasNext({atest:test})" class="btn btn-info pull-right" ng-click="next({atest:test})">
+                        <button ng-if="answerWasGiven() && hasNext()" class="btn btn-info pull-right" ng-click="next()">
                             Next
                         </button>
-                        <button ng-if="!answerWasGiven() && hasNext({atest:test})" class="btn btn-info pull-right" ng-click="next({atest:test})" disabled>
+                        <button ng-if="!answerWasGiven() && hasNext()" class="btn btn-info pull-right" ng-click="next()" disabled>
                             Next
                         </button>
                     </div>

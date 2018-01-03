@@ -1,79 +1,76 @@
-class Tester{
-    constructor(tests, TestingStrategyClass){
+class Tester {
+    constructor(tests, TestingStrategyClass) {
         this.strategy = new TestingStrategyClass(tests, this);
         this.currentTest = null;
+        this.nextTests = {};
         this.takenTests = [];
-        this._takeNext(); 
+        this._init();
+    }
+
+    _init(){
+        this._fetchNext();
+        this.next();
     }
 
     _getTestIndex(test) {
-        return  this.takenTests.map(t => t.id).indexOf(test.id);
+        return this.takenTests.map(t => t.id).indexOf(test.id);
     }
 
-    getCurrentTest(){
+    _wasAlreadyTaken(test) {
+        let index = this._getTestIndex(test);
+        return index !== -1 && index < this.takenTests.length;
+    }
+
+    _testKey(test){
+        return test? test.id: null;
+    }
+
+    _fetchNext() {
+        let test = this.currentTest;
+        let key = this._testKey(test);
+        if(!(key in this.nextTests)){
+            this.nextTests[key] = this.strategy.getNext(test); // Coupling with the testing strategy
+        }
+    }
+
+    getCurrentTest() {
         return this.currentTest;
     }
 
-    getAllTakenTests(clone){
-        return clone?simpleDeepClone(this.takenTests):this.takenTests;
+    getAllTakenTests(clone) {
+        return clone ? simpleDeepClone(this.takenTests) : this.takenTests;
     }
 
-    setAnswered (test, answer) {
+    setAnswered(test, answer) {
         let index = this._getTestIndex(test);
-        this.takenTests[index].answeredCorrectly = answer === test.answer;
-        this.takenTests[index].userAnswer = answer;
+        let thisTest = this.takenTests[index]; // Same test as 'test', but may not necessarily be the same object as 'test'
+        thisTest.answeredCorrectly = answer === test.answer;
+        thisTest.userAnswer = answer;
+        this._fetchNext(thisTest);
+    }    
+
+    hasNext() {
+        return !!this.nextTests[this._testKey(this.currentTest)];
     }
 
-    _wasAlreadyTaken(test){
-        let index = this._getTestIndex(test);
-        return index !== -1 && index < this.takenTests.length - 1;
-    }
-
-    /**
-     * Assume here that the test has been answered, correctly or not
-     * 
-     * @param {*} test 
-     */
-    hasNext(test){
-        if(this._wasAlreadyTaken(test)){
-            return true;
-        }
-        else return this.strategy.hasNext(test);
-    }
-
-    _takeNext(test){
-        let newTest = this.strategy.getNext(test);
-        if(newTest){
-            this.currentTest = newTest;
-            this.takenTests.push(newTest)
+    next() {
+        if(this.hasNext(this.currentTest)){
+            this.currentTest = this.nextTests[this._testKey(this.currentTest)];
+            if(!this._wasAlreadyTaken(this.currentTest)){
+                this.takenTests.push(this.currentTest);
+            }
         }
     }
 
-    /**
-     * Assume here that the test has been answered, correctly or not
-     * 
-     * @param {*} test 
-     */
-    getNext(test){
-        if(!this.hasNext(test)){
+    hasPrevious() {
+        return this._getTestIndex(this.currentTest) > 0;
+    }
+
+    previous() {
+        let test = this.currentTest;
+        if (!this.hasPrevious(test)) {
             return;
         }
-        if(this._wasAlreadyTaken(test)){
-            let index = this._getTestIndex(test);
-            this.currentTest = this.takenTests[index + 1];
-        } else {
-            this._takeNext(test);
-        }
-    }
-
-    hasPrevious(test){
-        return this._getTestIndex(test) > 0;
-    }
-
-    getPrevious(test){
-        if(!this.hasPrevious(test)){
-            return;
-        }
-        this.currentTest = this.takenTests[this._getTestIndex(test)-1];
+        this.currentTest = this.takenTests[this._getTestIndex(test) - 1];
     }
 }

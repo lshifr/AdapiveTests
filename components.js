@@ -28,16 +28,10 @@ app
 
             $scope.wasCorrectAnswer = () => $scope.answeredCorrectly;
 
-            $scope.checkAnswer = (choice) => {
-                return choice === $scope.test.userAnswer
-            }
-
+            $scope.checkAnswer = (choice) =>  choice === $scope.test.userAnswer;
             
-            $scope.checkCorrectAnswer = (choice) => {
-                return choice === $scope.test.answer;
-            }
+            $scope.checkCorrectAnswer = (choice) => choice === $scope.test.answer;
             
-
             $scope.checkIncorrectAnswer = (choice) => {
                 return $scope.checkAnswer(choice) && !$scope.test.answeredCorrectly;
             }
@@ -139,10 +133,10 @@ app
 
         this.$onInit = () => { this.setStrategy('SimpleAdaptiveGen') };
 
-        this.hasNext = test => this.tester.hasNext(test);
-        this.hasPrevious = test => this.tester.hasPrevious(test);
-        this.getNext = test => this.tester.getNext(test);
-        this.getPrevious = test => this.tester.getPrevious(test);
+        this.hasNext = () => this.tester.hasNext();
+        this.hasPrevious = () => this.tester.hasPrevious();
+        this.getNext = () => this.tester.next();
+        this.getPrevious = () => this.tester.previous();
         this.setAnswered = (test, answer) => this.tester.setAnswered(test, answer);
         this.getCurrentTest  = () => {
             if(this.tester){
