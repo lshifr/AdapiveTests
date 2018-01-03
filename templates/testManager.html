@@ -1,0 +1,55 @@
+<style>
+    .sel {
+        font-weight: bold;
+    }
+</style>
+
+<div class="row">
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <!--
+            <div class="form-group">
+                <label for="sel1">Select list:</label>
+                <select class="form-control" id="sel1">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+            </div>
+            -->
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Testing strategy
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li ng-repeat="strategy in $ctrl.getStrategies()">
+                        <a href="#" ng-click=$ctrl.setStrategy(strategy)>
+                            <span ng-class="{'sel': strategy === $ctrl.testingStrategy}">
+                                {{strategy}}
+                            </span>
+                        </a>
+                    </li>
+                    <!-- 
+                    <li><a href="#">Dropdown link</a></li>
+                    <li><a href="#">Dropdown link</a></li>
+                    --> 
+                </ul>
+            </div> 
+        </div>
+    </div>
+</div>
+<div class="row">
+    <single-test 
+    test="$ctrl.getCurrentTest()"
+    has-previous="$ctrl.hasPrevious(atest)"
+    has-next="$ctrl.hasNext(atest)"
+    previous="$ctrl.getPrevious(atest)"
+    next="$ctrl.getNext(atest)"
+    do-answer="$ctrl.setAnswered(atest, answer)"
+    ng-if="$ctrl.getCurrentTest()"
+    > 
+    </single-test>
+</div>

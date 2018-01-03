@@ -110,26 +110,34 @@ app
     }
 })
 .component('allTests', {
-    template: `<single-test 
-    test="$ctrl.getCurrentTest()"
-    has-previous="$ctrl.hasPrevious(atest)"
-    has-next="$ctrl.hasNext(atest)"
-    previous="$ctrl.getPrevious(atest)"
-    next="$ctrl.getNext(atest)"
-    do-answer="$ctrl.setAnswered(atest, answer)"
-    ng-if="$ctrl.getCurrentTest()"
-    >
-    </single-test>`,
-    controller: function (testsService) {
+    templateUrl: 'templates/testManager.html',
+    controller: function (testsService, $scope) {
 
         this.testingStrategy = null;
 
         /* TODO: will need router / resolves to cleanly inject the data into the 
         *  component. Right now, using ng-if to avoid errors, but that's a hack.
         */ 
-        testsService.getTests().then(res => {
-            this.tester = new Tester(simpleDeepClone(res), SimpleAdaptiveTestingStrategyGen);
-        });
+
+        this.availableStrategies = {
+            'Simple': SimpleTestingStrategy,
+            'SimpleAdaptive': SimpleAdaptiveTestingStrategy,
+            'SimpleAdaptiveGen': SimpleAdaptiveTestingStrategyGen
+        }
+
+        this.getStrategies = () => Object.keys(this.availableStrategies);
+
+        this.setStrategy = function(strategyName){
+            if(this.testingStrategy === strategyName){
+                return;
+            }
+            this.testingStrategy = strategyName;
+            testsService.getTests().then(res => {
+                this.tester = new Tester(simpleDeepClone(res), this.availableStrategies[strategyName]);
+            });
+        }
+
+        this.$onInit = () => { this.setStrategy('SimpleAdaptiveGen') };
 
         this.hasNext = test => this.tester.hasNext(test);
         this.hasPrevious = test => this.tester.hasPrevious(test);
@@ -143,5 +151,19 @@ app
                 return null;
             }
         };
+
+        /*
+
+        $scope.$watch(
+            this.getCurrentTest, 
+            function(){
+                alert("Changed!");
+            },
+            true
+        );
+
+        */
+
+
     }
 });            
