@@ -10,7 +10,8 @@
         "question": "What is printed in the console?",
         "choices": ["false", "true", "ReferenceError"],
         "answer": "true",
-        "level": "Moderate"
+        "level": "Moderate",
+        "sections": ["ExecutionModel"]
     },
     {
         "id": 2,
@@ -26,7 +27,8 @@
         "question": "What does the above alert?",
         "choices": ["function", "number", "object", "undefined"],
         "answer": "undefined",
-        "level": "Easy"
+        "level": "Easy",
+        "sections": ["Syntax"]
     },
     {
         "id": 3, 
@@ -38,7 +40,8 @@
             "true", "false", "TypeError"
         ],
         "answer":"true",
-        "level":"Easy"
+        "level":"Easy",
+        "sections": ["DataTypes"]
     },
     {
         "id":4,
@@ -50,7 +53,8 @@
             "true","false","TypeError","NaN"
         ],
         "answer":"false",
-        "level":"Easy"
+        "level":"Easy",
+        "sections": ["DataTypes", "CoreLanguage"]
     },
     {
         "id":5,
@@ -68,7 +72,8 @@
             "number", "function", "undefined", "string", "Error"
         ],
         "answer":"function",
-        "level": "Hard"
+        "level": "Hard",
+        "sections": ["ExecutionModel"]
     },
     {
         "id":6, 
@@ -80,7 +85,10 @@
             "0", "2", "11", "'11'"
         ],
         "answer": "2",
-        "level": "Moderate"
+        "level": "Moderate",
+        "sections":[
+            "DataTypes", "DataTypes"
+        ]
     },
     {
         "id": 7,
@@ -107,7 +115,10 @@
             "1,2", "1, 3", "2, 1", "2, 3", "3,1", "3,2"
         ],
         "answer": "3,1",
-        "level":"Easy"
+        "level":"Easy",
+        "sections":[
+            "ExecutionModel", "ExecutionContextAndObjectMethods"
+        ]
     }, 
     {
         "id": 8,
@@ -119,7 +130,10 @@
             "true","false","TypeError"
         ],
         "answer":"true",
-        "level":"Easy"                                                               
+        "level":"Easy",
+        "sections":[
+            "DataTypes"
+        ]                                                               
     },
     {
         "id":9,
@@ -131,7 +145,10 @@
             "'f, o, o'", "TypeError", "['f', 'o', 'o']",  "[][]['f', 'o', 'o']"
         ],
         "answer":"'f, o, o'",
-        "level":"VeryHard"
+        "level":"VeryHard",
+        "sections":[
+            "DataTypes"
+        ]
     },
     {
         "id":10,
@@ -143,7 +160,10 @@
             "\",,,,\"",  "[]", "\"[]\""
         ],
         "answer": "\",,,,\"",
-        "level" : "Hard"
+        "level" : "Hard",
+        "sections":[
+            "DataTypes"
+        ]
     },
     {
         "id":11,
@@ -161,7 +181,10 @@
             "['bin']"
         ],
         "answer" : "['bin']",
-        "level":"Easy"
+        "level":"Easy",
+        "sections":[
+            "DataTypes", "Arrays"
+        ]
     },
     {
         "id" : 12, 
@@ -173,7 +196,10 @@
             "true", "false","TypeError"
         ],
         "answer":"true",
-        "level":"Moderate"
+        "level":"Moderate",
+        "sections":[
+            "DataTypes"
+        ]
     },
     {
         "id":13,
@@ -192,7 +218,10 @@
             "ReferenceError","TypeError", "undefined", "0", "1"
         ], 
         "answer" : "undefined",
-        "level":"Hard"
+        "level":"Hard",
+        "sections":[
+            "ExecutionContextAndObjectMethods", "ExecutionModel"
+        ]
     },
     {
         "id" : 14,
@@ -204,7 +233,10 @@
             "true", "false", "TypeError"
         ],
         "answer":"false",
-        "level":"VeryHard"
+        "level":"VeryHard",
+        "sections" :[
+            "DataTypes"
+        ]
     },
     {
         "id" : 15,
@@ -222,7 +254,10 @@
             "ReferenceError", "TypeError", "undefined", "NaN", 4
         ], 
         "answer":"NaN",
-        "level":"Hard"
+        "level":"Hard",
+        "sections" :[
+            "ExecutionModel"
+        ]
     },
     {
         "id": 16,
@@ -236,7 +271,10 @@
             "true", "false", "ReferenceError"
         ], 
         "answer": "true",
-        "level":"Moderate"
+        "level":"Moderate",
+        "sections":[
+            "Arrays", "DataTypes"
+        ]
     },
     {
         "id": 17, 
@@ -252,7 +290,10 @@
             "1", "2", "3", "undefined"
         ], 
         "answer":"2",
-        "level":"Easy"
+        "level":"Easy",
+        "sections":[
+            "Arrays","DataTypes"
+        ]
     }, 
     {
         "id": 18,
@@ -264,7 +305,10 @@
             "true", "false"
         ], 
         "answer":"false",
-        "level":"Easy"
+        "level":"Easy",
+        "sections":[
+            "DataTypes", "CoreLanguage"
+        ]
     }, 
     {
         "id" : 19, 
@@ -280,7 +324,10 @@
             "2", "undefined", "ReferenceError"
         ], 
         "answer" : "undefined",
-        "level":"Moderate"
+        "level":"Moderate",
+        "sections":[
+            "ExecutionModel", "CoreLanguage"
+        ]
     }, 
     {
         "id" : 20, 
@@ -292,6 +339,227 @@
             "true", "false", "TypeError"
         ], 
         "answer":"false",
-        "level":"Easy"
+        "level":"Easy",
+        "sections":[
+            "DataTypes"
+        ]
+    },
+    {
+        "id": 21,
+        "contentLines":[
+            "function Hat() {",
+            "   var brand = \"shhh can't tell\";",
+            "}",
+            "",
+            "var my_hat = new Hat();",
+            "console.log(my_hat.brand);"
+        ],
+        "question":"What is printed in the console?",
+        "choices":[
+            "\"shhh can't tell\"", "\"brand\"", "TypeError", "undefined", "ReferenceError"
+        ],
+        "answer":"undefined",
+        "level":"Easy",
+        "sections":[
+            "ExecutionContextAndObjectMethods"
+        ]
+    },
+    {
+        "id": 22,
+        "contentLines":[
+            "function Hat() {",
+            "   var brand = \"shhh can't tell\";",
+            "   this.getBrand = function () { return brand; };",
+            "}",
+            "",
+            "var my_hat = new Hat();",
+            "console.log(my_hat.getBrand()));"
+        ],
+        "question":"What is printed in the console?",
+        "choices":[
+            "\"shhh can't tell\"", "\"brand\"", "TypeError", "undefined", "ReferenceError"
+        ],
+        "answer":"\"shhh can't tell\"",
+        "level":"Easy",
+        "sections":[
+            "ExecutionContextAndObjectMethods"
+        ]
+    },
+    {
+        "id":23,
+        "contentLines":[
+            "function sampleFun() {",
+            "   console.log(this);",
+            "}",
+            "sampleFun();"
+        ],
+        "question":"What is printed in the console?",
+        "choices":[
+            "undefined","ReferenceError", "Window[...] (global window object)"
+        ],
+        "answer": "Window[...] (global window object)",
+        "level":"Easy",
+        "sections":[
+            "ExecutionContextAndObjectMethods"
+        ]
+    }, 
+    {
+        "id":24,
+        "contentLines":[
+            "var globalObject = window;",
+            "function nestedExample() {",
+            "  function innerFunction () {",
+            "    return this === globalObject;",
+            "  }",
+            "  return innerFunction();",
+            "}",
+            "console.log(nestedExample());"
+        ],
+        "question":"What is printed in the console?",
+        "choices":[
+            "false", "true", "ReferenceError"
+        ], 
+        "level":"Moderate",
+        "answer":"true",
+        "sections":[
+            "ExecutionContextAndObjectMethods"
+        ]
+    }, 
+    {
+        "id":25,
+        "contentLines":[
+            "\"use strict\";",
+            "",
+            "var firstName = \"Jane\";",
+            "var user = { firstName: \"John\" };",
+            "",
+            "function func() {",
+            "  alert( this.firstName );",
+            "}",
+            "",
+            "user.f = func;",
+            "",
+            "user.f();",
+            "func();"    
+        ],
+        "question":"What does the above alert?",
+        "choices":[
+            "John, Jane",
+            "Jane, Jane",
+            "John, John",
+            "John, Uncaught TypeError"
+        ], 
+        "answer": "John, Uncaught TypeError",
+        "level":"Moderate",
+        "sections":[
+            "ExecutionContextAndObjectMethods"
+        ]
+    }, 
+    {
+        "id": 26,
+        "contentLines":[
+            "var user = {",
+            "   name: \"John\",",
+            "   hi: function() { alert(this.name); },",
+            "   bye: function() { alert(\"Bye\"); }",
+            " };",
+            "",  
+            " (user.name == \"John\" ? user.hi : user.bye)(); "
+        ],
+        "question":"What does the above alert?",
+        "choices":[
+            "'Bye'", "'John'", "TypeError"
+        ],
+        "answer": "TypeError",
+        "level":"Moderate",
+        "sections":[
+            "ExecutionContextAndObjectMethods"
+        ]
+    },
+    {
+        "id": 27,
+        "contentLines":[
+            "var arr = [\"a\", \"b\"];",
+            "",
+            "arr.push(function() {",
+            "  alert( this );",
+            "})",
+            "",
+            "arr[2]();"
+        ],
+        "question":"What does the above alert?",
+        "choices":[
+            "Window[...] (global window object)", "['a', 'b']", "undefined", "['a', 'b', 'function']"
+        ],
+        "answer": "['a', 'b', 'function']",
+        "level":"Moderate",
+        "sections":[
+            "ExecutionContextAndObjectMethods"
+        ]  
+    },
+    {
+        "id":28,
+        "contentLines":[
+            "var obj = {",
+            "   go: function() { alert(this) }",
+            "}",
+            "",  
+            "(obj.go)()"
+        ],
+        "question":"What does the above alert?",
+        "choices":[
+            "{ go: function }", "Window[...] (global window object)", "undefined", "Error"
+        ],
+        "answer": "Error",
+        "level":"Hard",
+        "sections":[
+            "ExecutionContextAndObjectMethods"
+        ]
+    },
+    {
+        "id":29,
+        "contentLines":[
+            "var user = {",
+            "   firstName: \"John\",",  
+            "   export: this",
+            "};",
+            "",  
+            "alert( user.export.firstName );"
+        ],
+        "question":"What does the above alert?",
+        "choices":[
+            "John", "undefined", "TypeError", "ReferenceError"
+        ],
+        "answer":"undefined",
+        "level":"Hard",
+        "sections":[
+            "ExecutionContextAndObjectMethods"
+        ]
+    }, 
+    {
+        "id": 30,
+        "contentLines":[
+            "var name = \"\";",
+            "",
+            "var user = {",
+            "  name: \"John\",",
+            "  export: function() {",
+            "    return {",
+            "      value: this",
+            "    };",
+            "  }",
+            "};",
+            "",
+            "alert( user.export().value.name );"
+        ], 
+        "question":"What does the above alert?",
+        "choices":[
+            "undefined", "John", "TypeError", "ReferenceError"
+        ],
+        "answer":"John",
+        "level":"Hard",
+        "sections":[
+            "ExecutionContextAndObjectMethods"
+        ]
     }
 ]
