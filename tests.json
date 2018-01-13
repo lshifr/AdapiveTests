@@ -87,7 +87,7 @@
         "answer": "2",
         "level": "Moderate",
         "sections":[
-            "DataTypes", "DataTypes"
+            "DataTypes"
         ]
     },
     {
@@ -560,6 +560,78 @@
         "level":"Hard",
         "sections":[
             "ExecutionContextAndObjectMethods"
+        ]
+    },
+    {
+        "id":31,
+        "contentLines":[
+            "alert( parseInt('12px') )",
+            "alert( parseFloat('12.3.4') )"
+        ],
+        "question":"What does the above alert?",
+        "choices":[
+            "TypeError, TypeError", "12, TypeError", "TypeError, 12.3", "12, 12.3"
+        ],
+        "answer": "12, 12.3",
+        "level":"Moderate",
+        "sections":[
+            "DataTypes"
+        ]
+    },
+    {
+        "id": 32,
+        "contentLines":[
+            "var price = 6.35;",
+            "",
+            "console.log(price.toFixed(1) === Math.round(price * 10) / 10)"
+        ],
+        "question":"What is printed in the console?",
+        "choices":[
+            "true","false"
+        ], 
+        "answer":"false",
+        "level":"Hard",
+        "sections":[
+            "DataTypes"
+        ]
+    },
+    {
+        "id":33,
+        "contentLines":[
+            "var i = 0;",
+            "while (i != 10) {",
+            "  i += 0.2;",
+            "  if(i >= 100){",
+            "    break;",
+            "  }",
+            "}",
+            "",
+            "console.log(parseInt(i.toFixed(0)));"
+        ],
+        "question":"What is printed in the console?",
+        "choices":[
+            "0", "10", "100", "undefined"
+        ],
+        "answer":"100",
+        "level":"Hard",
+        "sections":[
+            "DataTypes"
+        ]
+    },
+    {
+        "id": 34,
+        "contentLines":[
+            "console.log(10 + [] - 1)",
+            "console.log(10 + [] + 1)"
+        ],
+        "question":"What is printed in the console?",
+        "choices":[
+            "9, 11", "TypeError, 11", "9, TypeError", "TypeError, TypeError", "9, '101'"
+        ],
+        "answer": "9, '101'",
+        "level":"Hard",
+        "sections":[
+            "DataTypes"
         ]
     }
 ]
