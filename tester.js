@@ -33,24 +33,6 @@ class Tester {
         } 
     }
 
-    // NOTE: strictly internal method
-    _removeHistory(tests){
-        console.log('About to partly remove the test history... The history before removal: ');
-        console.log(this.nextTests);
-        console.log('Removing history for tests:');
-        console.log(tests);
-        tests.forEach(test => {
-            let key = this._testKey(test);
-            console.log('About to remove the next test info for test with key: ' + key);
-            delete this.nextTests[key];
-        });
-        if(null in this.nextTests){
-            delete this.nextTests[null];
-        }
-        console.log('Test history after removal: the length is:' + Object.keys(this.nextTests).length);
-        console.log(this.nextTests);
-    }
-
     getCurrentTest() {
         return this.currentTest;
     }
