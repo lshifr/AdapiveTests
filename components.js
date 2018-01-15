@@ -10,7 +10,8 @@ app
             'previous': '&',
             'next': '&',
             'doAnswer': '&',
-            'section': '<'
+            'section': '<',
+            'attempt': '<'
         },
         controller: function ($scope) {
 
@@ -158,6 +159,11 @@ app
         };
         this.getSection = () => {
             return this.tester.strategy.getCurrentSection();
+        };
+        this.getCurrentAttempt = () => {
+            if(this.tester.strategy.doSupportSections()){
+                return this.tester.strategy.getCurrentAttempt();
+            }
         }
 
         /*

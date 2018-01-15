@@ -43,6 +43,7 @@
 </div>
 <div class="row">
     <single-test 
+    ng-if="$ctrl.getCurrentTest()"
     wrapped-test="$ctrl.getCurrentTest()"
     has-previous="$ctrl.hasPrevious(atest)"
     has-next="$ctrl.hasNext(atest)"
@@ -50,7 +51,7 @@
     next="$ctrl.getNext(atest)"
     do-answer="$ctrl.setAnswered(atest, answer)"
     section="$ctrl.getSection()"
-    ng-if="$ctrl.getCurrentTest()"
+    attempt="$ctrl.getCurrentAttempt()"
     > 
     </single-test>
 </div>
