@@ -4,22 +4,25 @@ app
     return {
         templateUrl: 'templates/singleTest.html',
         scope: {
-            'test': '<',
+            'wrappedTest': '<',
             'hasPrevious': '&',
             'hasNext': '&',
             'previous': '&',
             'next': '&',
-            'doAnswer': '&'
+            'doAnswer': '&',
+            'section': '<'
         },
         controller: function ($scope) {
 
-            $scope.answeredCorrectly = $scope.test.answeredCorrectly;
+            $scope.test = $scope.wrappedTest.test;
+
+            $scope.answeredCorrectly = $scope.wrappedTest.answeredCorrectly;
 
             $scope.processChoice = function (event) {
                 if ($scope.answeredCorrectly === null) {
                     let userAnswer = event.target.innerText;
                     $scope.answeredCorrectly = userAnswer === $scope.test.answer;
-                    $scope.doAnswer({ atest: $scope.test, answer: userAnswer });
+                    $scope.doAnswer({ atest: $scope.wrappedTest, answer: userAnswer });
                 }
 
             }
@@ -28,18 +31,24 @@ app
 
             $scope.wasCorrectAnswer = () => $scope.answeredCorrectly;
 
-            $scope.checkAnswer = (choice) =>  choice === $scope.test.userAnswer;
+            $scope.checkAnswer = (choice) =>  choice === $scope.wrappedTest.userAnswer;
             
-            $scope.checkCorrectAnswer = (choice) => choice === $scope.test.answer;
+            $scope.checkCorrectAnswer = (choice) => {
+                if(!$scope.test){
+                    return false;
+                }
+                return choice === $scope.test.answer;
+            };
             
             $scope.checkIncorrectAnswer = (choice) => {
-                return $scope.checkAnswer(choice) && !$scope.test.answeredCorrectly;
+                return $scope.checkAnswer(choice) && !$scope.wrappedTest.answeredCorrectly;
             }
         },
         link: function (scope, elem) {
-            scope.$watch('test',
+            scope.$watch('wrappedTest',
                 function (newVal) {
                     //console.log(newVal);
+                    scope.test = scope.wrappedTest.test;
                     scope.answeredCorrectly = newVal.answeredCorrectly;
                 }
             )
@@ -117,7 +126,8 @@ app
             'Simple': SimpleTestingStrategy,
             'SimpleAdaptive': SimpleAdaptiveTestingStrategy,
             'SimpleAdaptiveGen': SimpleAdaptiveTestingStrategyGen,
-            'CustomTree': CustomTreeAdaptiveStrategy
+            'CustomTree': CustomTreeAdaptiveStrategy,
+            'SimpleSections': SimpleStrategyWithSections
         }
 
         this.getStrategies = () => Object.keys(this.availableStrategies);
@@ -146,6 +156,9 @@ app
                 return null;
             }
         };
+        this.getSection = () => {
+            return this.tester.strategy.getCurrentSection();
+        }
 
         /*
 

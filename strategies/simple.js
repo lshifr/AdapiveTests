@@ -3,13 +3,13 @@ class SimpleTestingStrategy extends BaseTestingStrategy {
         super(tests, tester, config);
     }
 
-    _getTestIndex(test) {
-        assert(test);
-        return this.tests.map(t => t.id).indexOf(test.id);
+    _getTestIndex(testWrapped) {
+        assert(testWrapped);
+        return this.tests.map(t => t.id).indexOf(testWrapped.getTestKey());
     }
 
-    fetchNext(test) {
-        return test ? this.tests[this._getTestIndex(test) + 1] : this.tests[0];
+    fetchNext(testWrapped) {
+        return testWrapped ? this.tests[this._getTestIndex(testWrapped) + 1] : this.tests[0];
     }
 }
 
@@ -19,11 +19,11 @@ class SimpleAdaptiveTestingStrategy extends BaseTestingStrategy {
         this.grouped = groupBy(tests, test => test.level);
     }
 
-    fetchNext(test) {
+    fetchNext(testWrapped) {
         let allowedLevels;
-        if(test){
-            let index = this.levels.indexOf(test.level);
-            let maxAllowedLevel = !test ? 0 : index + (test.answeredCorrectly ? 1 : (index ? -1 : 0));
+        if(testWrapped){
+            let index = this.levels.indexOf(testWrapped.test.level);
+            let maxAllowedLevel = !testWrapped ? 0 : index + (testWrapped.answeredCorrectly ? 1 : (index ? -1 : 0));
             allowedLevels = this.levels.slice(0, maxAllowedLevel + 1).reverse();
         } else { // The first test
             allowedLevels = this.levels.slice();
@@ -59,12 +59,12 @@ class SimpleAdaptiveTestingStrategyGen extends BaseTestingStrategy {
         this.testgen = makeMulticollectionGen(this.grouped, ["Easy"])();
     }
 
-    fetchNext(test) {
-        if (!test) {
+    fetchNext(testWrapped) {
+        if (!testWrapped) {
             return this.testgen.next().value;
         }
-        let index = this.levels.indexOf(test.level);
-        let maxAllowedLevel = index + (test.answeredCorrectly ? 1 : (index ? -1 : 0));
+        let index = this.levels.indexOf(testWrapped.test.level);
+        let maxAllowedLevel = index + (testWrapped.answeredCorrectly ? 1 : (index ? -1 : 0));
         let allowedLevels = this.levels.slice(0, maxAllowedLevel + 1).reverse();
         return this.testgen.next(allowedLevels).value;
     }

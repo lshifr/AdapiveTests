@@ -42,12 +42,12 @@ class CustomTreeAdaptiveStrategy extends BaseTestingStrategy {
         return index === -1 ? null : this.tests[index];
     }
 
-    fetchNext(test) {
+    fetchNext(testWrapped) {
         let nextResult;
-        if (!test) {
+        if (!testWrapped) {
             nextResult =  this.testTreeTraversalGen.next();
         } else {
-            nextResult = this.testTreeTraversalGen.next(test.answeredCorrectly);
+            nextResult = this.testTreeTraversalGen.next(testWrapped.answeredCorrectly);
         }
         if(nextResult.done){
             console.log("End of tree iteration");

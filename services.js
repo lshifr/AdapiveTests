@@ -14,8 +14,6 @@ function testsService($http){
     
     function preprocessTest(test){
         test.contents = test.contentLines.join("\n");
-        test.answeredCorrectly = null;
-        test.userAnswer = null;
         test.htmlContents = makeHighlightedHTML(test.contents);
     }
 
