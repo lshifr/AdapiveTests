@@ -5,10 +5,17 @@ class MultiAttemptTestWrapper extends BaseTestWrapper{
     } 
     
     getPreNotification(){
-        if(this.testObject.indexInGroup === 0 && this.testObject.attempt > 1){
-            return {
-                contents: `Starting a new attempt for section ${this.testObject.section}, level ${this.testObject.level}`,
-                type:  'warning'
+        if(this.testObject.indexInGroup === 0){
+            if(this.testObject.attempt === 1){
+                return {
+                    contents: `Starting a new group of tests of level ${this.testObject.level} for section ${this.testObject.section}. Press the Next button.`,
+                    type:  'default'
+                }
+            } else{
+                return {
+                    contents: `Starting a new attempt for section ${this.testObject.section}, level ${this.testObject.level}. Press the Next button`,
+                    type:  'warning'
+                }
             }
         }
         return null;
@@ -72,6 +79,7 @@ class SimpleStrategyWithSections extends BaseTestingStrategy {
                     passed += previous.answeredCorrectly? 1 : 0;
                 }
                 if(passed / total >= passLevel){
+                    self.currentAttempt = 1;
                     return true; // Signal that this level has been passed
                 }
                 self.currentAttempt++;
