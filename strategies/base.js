@@ -3,6 +3,8 @@ class BaseTestWrapper{
         this.test = null;
         this.answeredCorrectly = null;
         this.userAnswer = null;
+        this.preNotification;
+        this.postNotification;
 
         Object.defineProperty(this, 'test', {
             value : test,
@@ -28,7 +30,10 @@ class BaseTestWrapper{
 
     // Allow to only answer a given wrapped test once 
     processUserAnswer(answer) {
-        assert(this.answeredCorrectly === null && this.userAnswer === null, 'Attempt to overwrite the answer');
+        assert(
+            this.answeredCorrectly === null && this.userAnswer === null, 
+            'Attempt to overwrite the answer'
+        );
         Object.defineProperty(this, 'answeredCorrectly', {
             value : answer === this.test.answer,
             writable : false
@@ -37,6 +42,14 @@ class BaseTestWrapper{
             value : answer,
             writable : false
         });
+    }
+
+    getPreNotification(){
+        return this.preNotification;
+    }
+
+    getPostNotification(){
+        return this.postNotification;
     }
 }
 

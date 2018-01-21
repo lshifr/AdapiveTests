@@ -1,10 +1,13 @@
 class Tester {
-    constructor(tests, TestingStrategyClass) {
+    constructor(tests, TestingStrategyClass, options) {
         this.strategy = new TestingStrategyClass(tests, this);
         this.currentTest = null;
         this.nextTests = {};
         this.takenTests = [];
         this._init();
+        if(options){
+            this.notificationCallback = options.notificationCallback;
+        }
     }
 
     _init(){
@@ -29,7 +32,12 @@ class Tester {
         let test = this.currentTest;
         let key = this._testKey(test);
         if(!(key in this.nextTests)){
-            this.nextTests[key] = this.strategy.getNext(test); // Coupling with the testing strategy
+            let next = this.strategy.getNext(test); // Coupling with the testing strategy
+            this.nextTests[key] = next;
+
+            if(next.getPreNotification() && this.notificationCallback){
+                this.notificationCallback(next.getPreNotification());
+            } 
         } 
     }
 
@@ -45,6 +53,11 @@ class Tester {
         let index = this._getTestIndex(wrappedTest);
         let thisTest = this.takenTests[index]; // Same test as 'test', but may not necessarily be the same object as 'test'
         thisTest.processUserAnswer(answer);
+
+        if(thisTest.getPostNotification() && this.notificationCallback){
+            this.notificationCallback(thisTest.getPostNotification());
+        }
+        
         this._fetchNext(thisTest);
     }    
 

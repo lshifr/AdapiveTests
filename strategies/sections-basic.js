@@ -2,6 +2,12 @@ class MultiAttemptTestWrapper extends BaseTestWrapper{
     constructor(testObject, options){
         super(testObject.test, options);
         this.attempt = testObject.attempt;
+        if(testObject.indexInGroup === 0 && testObject.attempt > 1){
+            this.preNotification = {
+                contents: `Starting a new attempt for section ${testObject.section}, level ${testObject.level}`,
+                type:  'warning'
+            }
+        }
     }
 
     getTestKey(){
@@ -54,10 +60,13 @@ class SimpleStrategyWithSections extends BaseTestingStrategy {
             let total = 0;
             let passed = 0;
             while(self.currentAttempt <= max_attempts){
-                for(let test of tests){
+                for(const [index, test] of tests.entries()){
                     previous = yield {
                         test: test, 
-                        attempt: self.currentAttempt
+                        attempt: self.currentAttempt,
+                        section: section,
+                        level: level,
+                        indexInGroup: index
                     };
                     total += 1;
                     passed += previous.answeredCorrectly? 1 : 0;

@@ -120,7 +120,7 @@ app
         'hide': '&'
     },
     controller: function(){
-        
+
     }    
 })
 .component('allTests', {
@@ -169,7 +169,15 @@ app
             }
             this.testingStrategy = strategyName;
             testsService.getTests().then(res => {
-                this.tester = new Tester(simpleDeepClone(res), this.availableStrategies[strategyName]);
+                this.tester = new Tester(
+                    simpleDeepClone(res), 
+                    this.availableStrategies[strategyName],
+                    {
+                        notificationCallback: notif => {
+                            this.showNotification(notif.contents, notif.type);
+                        }
+                    }
+                );
             });
         }
 
