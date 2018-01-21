@@ -1,0 +1,32 @@
+<div>
+    <style>
+        .notif {
+            opacity: 1;
+            transition: opacity 1000ms;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .notif.hidenotif {
+            opacity: 0;
+        }
+    </style>
+
+
+
+    <div 
+        class="notification notif" 
+        ng-class="{
+            'hidenotif' : $ctrl.notification.hidden,
+            'is-primary': $ctrl.notification.type === 'default',
+            'is-link': $ctrl.notification.type === 'link',
+            'is-info': $ctrl.notification.type === 'info',
+            'is-success': $ctrl.notification.type === 'success',
+            'is-warning': $ctrl.notification.type === 'warning',
+            'is-danger': $ctrl.notification.type === 'danger'
+        }"
+    >
+        <button class="delete" ng-click="$ctrl.hide()"></button>
+        {{ $ctrl.notification.contents }}
+    </div>
+</div>

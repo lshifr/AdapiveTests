@@ -113,11 +113,41 @@ app
         }
     }
 })
+.component('notification', {
+    templateUrl: 'templates/notification.html',
+    bindings:{
+        'notification': '<',
+        'hide': '&'
+    },
+    controller: function(){
+        
+    }    
+})
 .component('allTests', {
     templateUrl: 'templates/testManager.html',
-    controller: function (testsService, $scope) {
+    controller: function (testsService, $scope, $timeout) {
 
         this.testingStrategy = null;
+
+        this.notification = {
+            hidden: true,
+            contents: '',
+            type: 'default'
+        }
+
+        this.hideNotification = () => {
+            this.notification.hidden = true;
+        }
+
+        this.showNotification = (text, type) => {
+            this.notification = {
+                hidden: false,
+                contents: text,
+                type: type || 'default'
+            }
+            $timeout(this.hideNotification, 5000);
+        }
+        
 
         /* TODO: will need router / resolves to cleanly inject the data into the 
         *  component. Right now, using ng-if to avoid errors, but that's a hack.
@@ -143,7 +173,10 @@ app
             });
         }
 
-        this.$onInit = () => { this.setStrategy('SimpleAdaptiveGen') };
+        this.$onInit = () => { 
+            this.setStrategy('SimpleAdaptiveGen');
+            this.showNotification('Test session started', 'info');
+        };
 
         this.hasNext = () => this.tester.hasNext();
         this.hasPrevious = () => this.tester.hasPrevious();
