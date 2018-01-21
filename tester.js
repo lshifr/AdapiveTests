@@ -35,7 +35,7 @@ class Tester {
             let next = this.strategy.getNext(test); // Coupling with the testing strategy
             this.nextTests[key] = next;
 
-            if(next.getPreNotification() && this.notificationCallback){
+            if(next && next.getPreNotification() && this.notificationCallback){
                 this.notificationCallback(next.getPreNotification());
             } 
         } 
@@ -54,10 +54,10 @@ class Tester {
         let thisTest = this.takenTests[index]; // Same test as 'test', but may not necessarily be the same object as 'test'
         thisTest.processUserAnswer(answer);
 
-        if(thisTest.getPostNotification() && this.notificationCallback){
+        if(thisTest && thisTest.getPostNotification() && this.notificationCallback){
             this.notificationCallback(thisTest.getPostNotification());
         }
-        
+
         this._fetchNext(thisTest);
     }    
 

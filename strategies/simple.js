@@ -9,7 +9,10 @@ class SimpleTestingStrategy extends BaseTestingStrategy {
     }
 
     fetchNext(testWrapped) {
-        return testWrapped ? this.tests[this._getTestIndex(testWrapped) + 1] : this.tests[0];
+        let test = testWrapped ? this.tests[this._getTestIndex(testWrapped) + 1] : this.tests[0];
+        return { // test object
+            test: test
+        }
     }
 }
 
@@ -30,7 +33,9 @@ class SimpleAdaptiveTestingStrategy extends BaseTestingStrategy {
         }
         for (let lev of allowedLevels) {
             if (this.grouped[lev].length > 0) {
-                return this.grouped[lev].shift();
+                return { 
+                    test: this.grouped[lev].shift()
+                };
             }
         }
         return null; // No allowed questions left
@@ -61,11 +66,15 @@ class SimpleAdaptiveTestingStrategyGen extends BaseTestingStrategy {
 
     fetchNext(testWrapped) {
         if (!testWrapped) {
-            return this.testgen.next().value;
+            return { 
+                test: this.testgen.next().value
+            };
         }
         let index = this.levels.indexOf(testWrapped.test.level);
         let maxAllowedLevel = index + (testWrapped.answeredCorrectly ? 1 : (index ? -1 : 0));
         let allowedLevels = this.levels.slice(0, maxAllowedLevel + 1).reverse();
-        return this.testgen.next(allowedLevels).value;
+        return {
+            test:this.testgen.next(allowedLevels).value
+        };
     }
 }

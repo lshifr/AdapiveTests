@@ -1,18 +1,18 @@
 class MultiAttemptTestWrapper extends BaseTestWrapper{
-    constructor(testObject, options){
-        super(testObject.test, options);
-        this.attempt = testObject.attempt;
-        if(testObject.indexInGroup === 0 && testObject.attempt > 1){
-            this.preNotification = {
-                contents: `Starting a new attempt for section ${testObject.section}, level ${testObject.level}`,
+
+    getTestKey(){
+        return this.test ? '' + this.test.id + '_' + this.testObject.attempt : null; 
+    } 
+    
+    getPreNotification(){
+        if(this.testObject.indexInGroup === 0 && this.testObject.attempt > 1){
+            return {
+                contents: `Starting a new attempt for section ${this.testObject.section}, level ${this.testObject.level}`,
                 type:  'warning'
             }
         }
+        return null;
     }
-
-    getTestKey(){
-        return this.test ? '' + this.test.id + '_' + this.attempt : null; 
-    }    
 }
 
 class SimpleStrategyWithSections extends BaseTestingStrategy {

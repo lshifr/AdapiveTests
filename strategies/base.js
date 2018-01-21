@@ -1,13 +1,19 @@
 class BaseTestWrapper{
-    constructor(test, options){
+    /**
+     * Constructor for the test wrapper.
+     * 
+     * @param {Object} testObject - The object that has to contain 'test' field with the test, 
+     * but may also contain arbitrary other fields with some meta-information
+     * @param {*} options 
+     */
+    constructor(testObject, options){
         this.test = null;
         this.answeredCorrectly = null;
         this.userAnswer = null;
-        this.preNotification;
-        this.postNotification;
+        this.testObject = testObject;
 
         Object.defineProperty(this, 'test', {
-            value : test,
+            value : testObject.test,
             writable : false
         });
 
@@ -19,8 +25,8 @@ class BaseTestWrapper{
         }
     }
 
-    static wrapTest(test, options){
-        return test ? new this(test, options) : test;
+    static wrapTest(testObject, options){
+        return testObject ? new this(testObject, options) : testObject;
     }    
 
     // Default key associated with the test
@@ -45,11 +51,11 @@ class BaseTestWrapper{
     }
 
     getPreNotification(){
-        return this.preNotification;
+        return null;
     }
 
     getPostNotification(){
-        return this.postNotification;
+        return null;
     }
 }
 

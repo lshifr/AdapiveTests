@@ -54,7 +54,9 @@ class CustomTreeAdaptiveStrategy extends BaseTestingStrategy {
             return null;
         }
         console.log(nextResult.value);
-        return this._getTestById(nextResult.value.testId);
+        return { 
+            test: this._getTestById(nextResult.value.testId)
+        };
     }
 
     _createCustomTestTree(){
