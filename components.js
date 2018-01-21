@@ -123,7 +123,7 @@ app
 
     }    
 })
-.component('allTests', {
+.component('testManager', {
     templateUrl: 'templates/testManager.html',
     controller: function (testsService, $scope, $timeout) {
 
