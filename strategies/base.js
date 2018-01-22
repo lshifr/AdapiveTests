@@ -86,6 +86,10 @@ class BaseTestingStrategy {
         return BaseTestWrapper.wrapTest.bind(BaseTestWrapper);
     }
 
+    fetchNext(obj){
+        assert(false, 'NotImplemented');
+    }
+
     fetchNextWrapped(testWrapped){
         let wrapper = this.getTestWrapper();
         return wrapper(this.fetchNext(testWrapped));
