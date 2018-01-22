@@ -26,8 +26,8 @@ class SimpleAdaptiveTestingStrategy extends BaseTestingStrategy {
         let allowedLevels;
         if(testWrapped){
             let index = this.levels.indexOf(testWrapped.test.level);
-            let maxAllowedLevel = !testWrapped ? 0 : index + (testWrapped.answeredCorrectly ? 1 : (index ? -1 : 0));
-            allowedLevels = this.levels.slice(0, maxAllowedLevel + 1).reverse();
+            let maxAllowedLevel =  index + (testWrapped.answeredCorrectly ? 1 : (index ? -1 : 0));
+            allowedLevels = this.levels.slice(0, maxAllowedLevel + 1).reverse(); 
         } else { // The first test
             allowedLevels = this.levels.slice();
         }
@@ -65,7 +65,7 @@ class SimpleAdaptiveTestingStrategyGen extends BaseTestingStrategy {
     }
 
     fetchNext(testWrapped) {
-        if (!testWrapped) {
+        if (!testWrapped) { // First test
             return { 
                 test: this.testgen.next().value
             };
